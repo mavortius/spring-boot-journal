@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Login</title>
+    <link rel="stylesheet" media="all" type="text/css" href="/webjars/bootswatch-spacelab/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="/webjars/bootswatch-spacelab/3.3.7/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="/css/common.css" />
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <p th:if="${param.logout}" class="alert">You have been logged out</p>
+        <p th:if="${param.error}" class="alert alert-error">There was an error, please try again</p>
+        <h2>Login to Spring Boot Journal</h2>
+        <form name="form" th:action="@{/login}" action="/login" method="post">
+            <input type="text" name="username" value="" placeholder="Username" />
+            <input type="password" name="password" placeholder="Password" />
+            <input type="submit" id="login" value="Login" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+</body>
+</html>
