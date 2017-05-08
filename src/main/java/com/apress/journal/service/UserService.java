@@ -1,8 +1,9 @@
 package com.apress.journal.service;
 
+import com.apress.journal.domain.Role;
+import com.apress.journal.domain.RoleAuthority;
 import com.apress.journal.domain.User;
 import com.apress.journal.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -32,8 +36,9 @@ public class UserService implements UserDetailsService {
                                         String.format("Login failed for username %s",
                                                 username)
                                 ));
+
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().name())
+                user.getUsername(), user.getPassword(), AuthorityUtils.createAuthorityList(rolesToStringArray(user.getRoles()))
         );
     }
 
@@ -42,5 +47,15 @@ public class UserService implements UserDetailsService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         repository.save(user);
+    }
+
+    public String[] rolesToStringArray(List<Role> roles) {
+        List<String> authorities = new ArrayList<>();
+
+        for(Role r : roles) {
+            authorities.add(r.getAuthority().name());
+        }
+
+        return authorities.toArray(new String[authorities.size()]);
     }
 }

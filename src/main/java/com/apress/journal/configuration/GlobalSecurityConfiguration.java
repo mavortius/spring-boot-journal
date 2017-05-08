@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableGlobalAuthentication
-public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+public class GlobalSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -26,10 +26,5 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncode());
-    }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
     }
 }

@@ -1,6 +1,8 @@
 package com.apress.journal.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -10,13 +12,25 @@ public class User {
     private String username;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    @ManyToMany
+    @JoinTable(name = "user_role",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(String username, String password, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles.add(role);
     }
 
     public Long getId() {
@@ -43,11 +57,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
