@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -50,11 +51,10 @@ public class UserService implements UserDetailsService {
     }
 
     public String[] rolesToStringArray(List<Role> roles) {
-        List<String> authorities = new ArrayList<>();
-
-        for(Role r : roles) {
-            authorities.add(r.getAuthority().name());
-        }
+        List<String> authorities = roles
+                                        .stream()
+                                        .map(r -> r.getAuthority().name())
+                                        .collect(Collectors.toList());
 
         return authorities.toArray(new String[authorities.size()]);
     }
